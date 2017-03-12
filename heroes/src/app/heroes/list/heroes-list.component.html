@@ -1,0 +1,26 @@
+<table class="table table-striped">
+  <tr>
+    <th>Nome</th>
+    <th>Empresa</th>
+    <th>Habilidades</th>
+    <th>Editar</th>
+    <th>Excluir</th>
+  </tr>
+  <tr *ngFor="let hero of heroes">
+    <td>{{hero.nome}}</td>
+    <td>{{hero.empresa}}</td>
+    <td>{{hero.habilidades}}</td>
+
+    <td>
+      <button (click)="edit(hero)" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+      </button>
+    </td>
+    
+    <td>
+      <button (click)="delete(hero.id)" class="btn btn-danger">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+      </button>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,10 @@
+<div class="container">
+  <heroes-form (saveHero)="saveHero($event)" [selectedHero]="selectedHero"></heroes-form>
+
+  <br/>
+
+  <heroes-list [heroes]="heroes" 
+    (deleteHero)="deleteHero($event)" 
+    (editHero)="editHero($event)"></heroes-list>
+
+</div>
