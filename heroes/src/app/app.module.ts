@@ -13,7 +13,6 @@ import { HeroesModule } from './heroes/heroes.module';
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    HttpModule,
     HeroesModule
   ],
   providers: [],

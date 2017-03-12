@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { HeroesListComponent } from '../list/heroes-list.component';
+import { HeroesService } from './../heroes.service';
 
 describe('HeroesListComponent', () => {
   let component: HeroesListComponent;
@@ -11,7 +12,8 @@ describe('HeroesListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeroesListComponent ]
+      declarations: [HeroesListComponent],
+      providers: [HeroesService]
     })
     .compileComponents();
   }));

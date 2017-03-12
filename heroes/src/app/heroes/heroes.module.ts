@@ -18,7 +18,9 @@ import { HeroesService } from './heroes.service';
     HeroesFormComponent
   ],
   exports: [
-    HeroesComponent
+    HeroesComponent,
+    HeroesListComponent,
+    HeroesFormComponent
   ], 
   providers: [
     HeroesService
