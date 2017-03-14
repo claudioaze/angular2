@@ -7,11 +7,16 @@ import { Hero } from './../hero.model';
     selector: 'heroes-form',
     templateUrl: './heroes-form.component.html'
 })
-export class HeroesFormComponent implements OnInit, OnChanges {
+export class HeroesFormComponent implements OnInit {
 
     form: FormGroup;
 
-    @Input() selectedHero: Hero;
+    @Input()
+    set selectedHero(hero:Hero) {
+        if(hero) {
+            this.form.patchValue(hero);
+        }
+    }
 
     @Output() saveHero = new EventEmitter();
 
@@ -19,17 +24,6 @@ export class HeroesFormComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         this.form = HeroesFormComponent.createForm(this.formBuilder);
-    }
-
-    ngOnChanges() {
-        if(this.selectedHero) {
-            this.form.patchValue({
-                id: this.selectedHero.id,
-                nome: this.selectedHero.nome,
-                empresa: this.selectedHero.empresa,
-                habilidades: this.selectedHero.habilidades
-            });
-        }
     }
 
     public static createForm(formBuilder: FormBuilder): FormGroup {

@@ -32,16 +32,25 @@ export class HeroesComponent implements OnInit {
   saveHero(hero) {
     
     if(hero.id) {
-     
-      let index: number = this.heroes.findIndex((hero => hero.id == hero.id));
-     
+      
+      let index: number = this.heroes.findIndex((h => h.id == hero.id));
+      
       if(index >= 0) {
         this.heroes[index] = hero;
       } else {
-        this.heroes.push(hero);
+        this.addHero(hero);
       }
+    } else {
+      this.addHero(hero);
     }
+
     this.selectedHero = new Hero();
+  }
+
+  private addHero(hero: Hero) {
+    const latest = this.heroes.reduce((prev, current) => (prev.id > current.id) ? prev : current);
+    hero.id = (latest.id + 1);
+    this.heroes.push(hero);
   }
 
 }
