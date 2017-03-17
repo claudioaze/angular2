@@ -14,7 +14,15 @@ export class HeroesComponent implements OnInit {
 
   selectedHero: Hero;
 
-  constructor(private heroesService: HeroesService) { }
+  fieldsToDisplay = [];
+
+  constructor(private heroesService: HeroesService) {
+      this.fieldsToDisplay.push(
+          {header: 'Nome', field: 'nome'},
+          {header: 'Empresa', field: 'empresa'},
+          {header: 'Habilidades', field: 'habilidades'},
+      );
+  }
 
   ngOnInit() {
     this.heroes = this.heroesService.getHeroesMock();

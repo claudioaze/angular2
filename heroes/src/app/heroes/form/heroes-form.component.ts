@@ -11,6 +11,10 @@ export class HeroesFormComponent implements OnInit {
 
     form: FormGroup;
 
+    habilidades = [];
+
+    fieldsToDisplay = [];
+
     @Input()
     set selectedHero(hero:Hero) {
         if(hero) {
@@ -20,22 +24,46 @@ export class HeroesFormComponent implements OnInit {
 
     @Output() saveHero = new EventEmitter();
 
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(private formBuilder: FormBuilder) { 
+        this.fieldsToDisplay.push(
+            {header: 'Habilidade', field: 'habilidade'}
+        );
+    }
 
     ngOnInit() {
         this.form = HeroesFormComponent.createForm(this.formBuilder);
     }
 
     public static createForm(formBuilder: FormBuilder): FormGroup {
+
         return formBuilder.group({
-            'id': [],
-            'nome': [null,  Validators.compose([Validators.required, Validators.maxLength(25)])],
-            'empresa': [null, Validators.required],
-            'habilidades': [null, Validators.required]
+            id: [],
+            nome: ['',  Validators.compose([Validators.required, Validators.maxLength(25)])],
+            empresa: ['', Validators.required],
+            habilidades: formBuilder.group({
+                habilidade: []
+            })
         });
     }
 
     save() {
         this.saveHero.emit(this.form.value);
+    }
+
+    addHabilidade() {
+        if(this.form.get('habilidades').value.habilidade) {
+            this.habilidades.push(this.form.get('habilidades').value);
+        }
+        this.form.get('habilidades').reset();
+    }
+
+    deleteHabilidade(habilidade) {
+        let index: number = this.habilidades.findIndex(h => h === habilidade);
+        this.habilidades.splice(index, 1);
+    }
+
+    editHabilidade(habilidade) {
+        this.form.get('habilidades').setValue(habilidade);
+        this.deleteHabilidade(habilidade);
     }
 }

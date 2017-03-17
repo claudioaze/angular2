@@ -9,7 +9,7 @@
   <tr *ngFor="let hero of heroes">
     <td>{{hero.nome}}</td>
     <td>{{hero.empresa}}</td>
-    <td>{{hero.habilidades}}</td>
+    <td>{{hero.habilidades | json}}</td>
 
     <td>
       <button (click)="edit(hero)" class="btn btn-primary">
@@ -24,3 +24,4 @@
     </td>
   </tr>
 </table>
+

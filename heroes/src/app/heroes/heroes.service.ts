@@ -13,13 +13,20 @@ export class HeroesService {
         id: 1,
         nome:"Hulk",
         empresa:"Marvel",
-        habilidades: "Super força, imortalidade"
+        habilidades: [ 
+          { habilidade: "Super força"},
+          { habilidade: "Imortalidade"}  
+        ]
       },
       {
         id: 2,
         nome:"Homem de Ferro",
         empresa:"Marvel",
-        habilidades: "Milionário, inteligente, filantropico"
+        habilidades: [ 
+          { habilidade: "Bilionário"},
+          { habilidade: "Inteligente"},
+          { habilidade: "Filantrópico"}
+        ]
       }
     ];
   }

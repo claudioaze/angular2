@@ -7,4 +7,6 @@
     (deleteHero)="deleteHero($event)" 
     (editHero)="editHero($event)"></heroes-list>
 
+  <data-table [list]="heroes" [fieldsToDisplay]="fieldsToDisplay" (delete)="deleteHero($event)" (edit)="editHero($event)"></data-table>
+
 </div>
