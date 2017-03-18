@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
 import { Hero } from './../hero.model';
 
@@ -11,14 +11,29 @@ export class HeroesFormComponent implements OnInit {
 
     form: FormGroup;
 
-    habilidades = [];
-
     fieldsToDisplay = [];
 
     @Input()
     set selectedHero(hero:Hero) {
         if(hero) {
+            
             this.form.patchValue(hero);
+            
+            //deletar todas as habilidades (form control) do form
+            this.form.get('habilidades').value.forEach(element => {
+               this.deleteHabilidade(element); 
+            });
+
+            //adicionar/criar novo form control para cada habilidade e add no form
+            if(hero.habilidades) {
+                hero.habilidades.forEach(obj => {
+                    let formGroupHabilidades: FormGroup = this.initHabilidade();
+                    formGroupHabilidades.patchValue(obj);
+
+                    let formArray = <FormArray> this.form.get('habilidades');
+                    formArray.push(formGroupHabilidades);
+                });
+            }
         }
     }
 
@@ -31,18 +46,23 @@ export class HeroesFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.form = HeroesFormComponent.createForm(this.formBuilder);
+        this.form = this.createForm();
     }
 
-    public static createForm(formBuilder: FormBuilder): FormGroup {
-
-        return formBuilder.group({
+    public createForm(): FormGroup {
+        return this.formBuilder.group({
             id: [],
             nome: ['',  Validators.compose([Validators.required, Validators.maxLength(25)])],
             empresa: ['', Validators.required],
-            habilidades: formBuilder.group({
-                habilidade: []
-            })
+            habilidades: this.formBuilder.array([
+                this.initHabilidade()
+            ])
+        });
+    }
+
+    initHabilidade() {
+        return this.formBuilder.group({
+            habilidade: ['', Validators.required]
         });
     }
 
@@ -51,19 +71,13 @@ export class HeroesFormComponent implements OnInit {
     }
 
     addHabilidade() {
-        if(this.form.get('habilidades').value.habilidade) {
-            this.habilidades.push(this.form.get('habilidades').value);
-        }
-        this.form.get('habilidades').reset();
+        const control = <FormArray>this.form.controls['habilidades'];
+        control.push(this.initHabilidade());
     }
 
-    deleteHabilidade(habilidade) {
-        let index: number = this.habilidades.findIndex(h => h === habilidade);
-        this.habilidades.splice(index, 1);
+    deleteHabilidade(position: number) {
+        const control = <FormArray>this.form.controls['habilidades'];
+        control.removeAt(position);
     }
 
-    editHabilidade(habilidade) {
-        this.form.get('habilidades').setValue(habilidade);
-        this.deleteHabilidade(habilidade);
-    }
 }

@@ -10,25 +10,30 @@
         <input formControlName="empresa" name="empresa" class="form-control" type="text" placeholder="Empresa criadora do herói">
     </div>
 
-    <div formGroupName="habilidades">
-        <div class="input-group">
-            <input type="text" name="habilidade" formControlName="habilidade" class="form-control" placeholder="Habilidade">
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-primary" (click)="addHabilidade()">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-            </span>
+    <div formArrayName="habilidades">
+        <div *ngFor="let item of form.controls.habilidades.controls; let i = index">
+
+            <div class="input-group" [formGroupName]="i" style="margin-bottom: 5px">
+                <input type="text" formControlName="habilidade" class="form-control" placeholder="Habilidade Nº {{i + 1}}">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-danger" (click)="deleteHabilidade(i)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </span>
+            </div>
         </div>
     </div>
-    
-    <div class="form-group">
-        <br/>
-        <data-table [list]="habilidades" [fieldsToDisplay]="fieldsToDisplay" (delete)="deleteHabilidade($event)" (edit)="editHabilidade($event)"></data-table>
+
+    <div style="margin-top: 5px">
+        <button type="button" class="btn btn-primary" (click)="addHabilidade()">
+            Adicionar outra habilidade
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
     </div>
 
     <br/>
 
-    <button type="submit" class="btn btn-primary" [disabled]="form.pristine || !form.valid">Salvar</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
 
 </form>
 
